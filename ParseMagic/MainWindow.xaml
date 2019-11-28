@@ -1,0 +1,70 @@
+﻿<Window x:Class="ParseMagic.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ParseMagic"
+        mc:Ignorable="d"
+        Title="Nexalab ParseMagic" Height="550" Width="900" WindowStartupLocation="CenterScreen" FontFamily="Microsoft YaHei UI">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="fullspread_grid">
+            <Button x:Name="LOAD_EXCEL_BTN" Content="LOAD EXCEL FILE" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="165" Height="42" Foreground="#FFEDEFFF" FontWeight="Bold" FontSize="14" BorderBrush="#FF2A48B0" Click="LoadExcel">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFD8DDF0" Offset="0"/>
+                        <GradientStop Color="#FF986EFA" Offset="0.617"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Grid Margin="456,0,0,0" Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="10,25,232,0" TextWrapping="Wrap" Text="TEXT FORMAT" VerticalAlignment="Top" Height="42" FontWeight="Bold" FontSize="17" Foreground="#FF2A48B0"/>
+                <RichTextBox x:Name="TEXT_STRUCTURE_RTB" Margin="10,67,10,0" Height="291" VerticalAlignment="Top" FontSize="15" Padding="5,10,5,5" BorderBrush="#FFEBEEF7" Background="#FFFBFCFF" KeyUp="UpdateTextParameterCountCaller">
+                    <FlowDocument>
+                        <Paragraph/>
+                    </FlowDocument>
+                </RichTextBox>
+                <Button x:Name="EXPORT_TEXT_BTN" Content="E X P O R T" Margin="10,434,0,0" VerticalAlignment="Top" Height="42" Foreground="White" FontWeight="Bold" FontSize="14" BorderBrush="#FF8B753D" Click="Export" HorizontalAlignment="Left" Width="140">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFFDDD89" Offset="0"/>
+                            <GradientStop Color="#FF8B753D" Offset="0.847"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <CheckBox x:Name="OPEN_AFTER_EXPORT_CHECKBOX" Content="Open After Export." Margin="10,407,0,0" VerticalAlignment="Top" Height="22" HorizontalAlignment="Left" Width="140" Click="OpenAfterExportClicked" IsChecked="True"/>
+                <MediaElement x:Name="BUSY_IMG" Height="112" Margin="310,407,0,0" VerticalAlignment="Top" Source="busy.gif" MediaEnded="loopGif" UnloadedBehavior="Manual" LoadedBehavior="Play" Visibility="Hidden"/>
+                <TextBlock x:Name="APP_BUSY_TIP_TB" Margin="10,490,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="19" Foreground="#FFACACAC" Text="Data volume affects execution time" FontSize="11" HorizontalAlignment="Left" Width="194" Visibility="Hidden"/>
+                <TextBlock Margin="0,379,10,0" TextWrapping="Wrap" Text="Attributes found in text format" VerticalAlignment="Top" Height="28" FontSize="14" Foreground="#FF2A48B0" HorizontalAlignment="Right" Width="211"/>
+                <TextBlock x:Name="ATTRIBUTE_COUNT_TB_Copy1" Margin="176,379,232,0" TextWrapping="Wrap" Text="{Binding TextAttributesCount}" VerticalAlignment="Top" Height="28" FontWeight="Bold" FontSize="14" Foreground="#FF1DC534" TextAlignment="Right"/>
+                <ComboBox x:Name="ATT_SELECTOR_COMBO" Margin="0,33,16,0" VerticalAlignment="Top" Height="23" HorizontalAlignment="Right" Width="110" SelectionChanged="updateAttributeSelector"/>
+            </Grid>
+            <Button x:Name="LOAD_TEXT_BTN" Content="LOAD WORD | TEXT FILE" HorizontalAlignment="Left" Margin="218,25,0,0" VerticalAlignment="Top" Width="201" Height="42" Foreground="#FFEDEFFF" FontWeight="Bold" FontSize="14" BorderBrush="#FF2A48B0" Click="LoadText">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFD8DDF0" Offset="0"/>
+                        <GradientStop Color="#FF773DFF" Offset="0.617"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <TextBlock Margin="25,132,642,0" TextWrapping="Wrap" Text="ENTRIES FOUND" VerticalAlignment="Top" Height="38" FontWeight="Bold" FontSize="14" Foreground="#FF2A48B0"/>
+            <TextBlock x:Name="RECIPIENT_COUNT_TB" Margin="255,132,457,0" TextWrapping="Wrap" Text="{Binding FileReciepientsCount}" VerticalAlignment="Top" Height="38" FontWeight="Bold" FontSize="14" Foreground="#FFFF2C85"/>
+            <DataGrid x:Name="DATA_PEEK_DATAGRID" HorizontalAlignment="Left" Margin="25,235,0,25" Width="394" BorderBrush="{x:Null}" ItemsSource="{Binding}"/>
+            <TextBlock Margin="25,166,642,0" TextWrapping="Wrap" Text="ATTRIBUTES FOUND" VerticalAlignment="Top" Height="38" FontWeight="Bold" FontSize="14" Foreground="#FF2A48B0"/>
+            <TextBlock x:Name="ATTRIBUTE_COUNT_TB" Margin="255,166,457,0" TextWrapping="Wrap" Text="{Binding FileAttributesCount}" VerticalAlignment="Top" Height="38" FontWeight="Bold" FontSize="14" Foreground="#FFFF2C85"/>
+            <TextBlock x:Name="FILE_LOCATION_TB" Margin="25,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="37" Foreground="#FF7C7C7C" Text="No file selected" HorizontalAlignment="Left" Width="394" Padding="5,5,0,0"/>
+            <TextBlock Margin="25,197,642,0" TextWrapping="Wrap" Text="PROCESSED" VerticalAlignment="Top" Height="38" FontWeight="Bold" FontSize="14" Foreground="#FF2A48B0"/>
+            <TextBlock x:Name="ATTRIBUTE_COUNT_TB_Copy" Margin="255,197,457,0" TextWrapping="Wrap" Text="{Binding ProcessedCount}" VerticalAlignment="Top" Height="38" FontWeight="Bold" FontSize="14" Foreground="#FF1DC534"/>
+            <TextBlock x:Name="FILE_LOCATION_TB_Copy" Margin="0,8,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="23" Foreground="#FF7C7C7C" Text="Attribute Selector" Padding="5,5,0,0" HorizontalAlignment="Right" Width="122"/>
+        </Grid>
+
+    </Grid>
+</Window>
